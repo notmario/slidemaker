@@ -5,32 +5,28 @@ title:slidemaker demo
 ---
 !!columns
 !column
-### column 1
-you can have columnsde
+## images
+what is an image? it's a picture of something. you can have images in your slides.
 !column
-### column 2
-wowie!   
-!column
-### column 3
-that's crazy bro
+[](./thumbsup.png)
 ---
 !!columns
 !column
-## images
-what is an image? it's a picture of something. you can have images in your slides. here's an image of a cat.
+### column 1
+you can have columns
 !column
-[](./boris.png)
----
-## that wasn't a cat
-you got trolled!!
-[](./big-chungus.gif)
+### column 2
+that's neat
+!column
+### column 3
+bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla
 ---
 !!bgcol black
 !!style font-size: 4em;
 # but wait, there's more
 ---
 ## youtube videos
-you can have youtube videos in your slides. here's a video of a cat.
+you can have youtube videos in your slides.
 [](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
 (it's a rickroll)
 ---
@@ -41,8 +37,14 @@ you can have youtube videos in your slides. here's a video of a cat.
 <!!fly-in right>i guess
 ---
 !!autoanimate
+!!columns
+!column
 <!!spin-in cw veryslow># more animations
 !!animblock
+<!!fade-in instant>yup
+!column
+!!animblock
+<!!spin-in veryfunny reallypushingit>[](./thumbsup.png)
 ---
 !!transition fly-in right
 !!bgcol #3c6843

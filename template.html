@@ -16,8 +16,8 @@
     text-align: center;
   }
   .slide {
-    height: 100vh;
-    width: 100vw;
+    height: calc(100vh - 2rem);
+    width: calc(100vw - 2rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,6 +26,7 @@
     color: %%col%%;
     background-color: %%bgcol%%;
     position: absolute;
+    padding: 1rem;
   }
   .controls {
     border-radius: 0.5rem;
@@ -49,12 +50,11 @@
     background-color: black; 
   }
   .columns {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    /* automatically space out the columns */
+    grid-template-columns: repeat(auto-fit, minmax(1px, 1fr));
+    gap: 0;
   }
   .column {
     display: flex;
@@ -62,7 +62,6 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: calc(50vw - 2rem);
   }
   img {
     max-width: 25rem;
@@ -116,6 +115,35 @@
     opacity: 0;
   }
 
+  @keyframes veryfunnyspin {
+    0% {
+      transform: rotateX(150deg) rotateY(-230deg) rotateZ(40deg) translate(10rem,5rem);
+    }
+    20% {
+      transform: rotateX(30deg) rotateY(50deg) rotateZ(20deg) translate(-3rem,5rem);
+    }
+    40% {
+      transform: rotateX(4000deg) rotateY(-30deg) rotateZ(-32deg) translate(5rem,-5rem);
+    }
+    60% {
+      transform: rotateX(350deg) rotateY(-5000deg) rotateZ(2000deg) translate(-3rem,5rem);
+    }
+    80% {
+      transform: rotateX(132491384913894deg) rotateY(13489138949138948319deg) rotateZ(-1839491348943198deg) translate(5rem,0rem);
+    }
+    100% {
+      transform: rotateX(0deg);
+    }
+  }
+
+  .anim.spin-in.veryfunny:not(.animated) {
+    animation: none;
+    opacity: 0;
+  }
+  .anim.spin-in.veryfunny.animated {
+    animation: veryfunnyspin 0.8s ease-in-out;
+  }
+
   /* same thing but for slides */
   .slide.invisible:not(.transition) {
     opacity: 0;
@@ -158,6 +186,14 @@
   .slide.transition.spin-in.ccw.invisible {
     transform: rotate(720deg);
     opacity: 0;
+  }
+
+  .slide.transition.spin-in.veryfunny.invisible {
+    animation: none;
+    opacity: 0;
+  }
+  .slide.transition.spin-in.veryfunny.animated {
+    animation: veryfunnyspin 0.8s ease-in-out;
   }
 
 
@@ -240,7 +276,6 @@
     document.getElementById('controls-info').innerHTML = `${currentslide + 1} / ${slides.length - 1}`; // update controls info (current slide / total slides
     
     // show the first slide
-    slides[currentslide].style.display = 'flex';
 
     let nextSlide = () => {
       // check if we have any unanimated animations
@@ -258,7 +293,6 @@
           return; // if we're on the last slide, don't do anything
         }
         currentslide = (currentslide + 1) % slides.length;
-        slides[currentslide].style.display = 'flex';
         slides[currentslide].classList.toggle('invisible'); // remove invisible class from next slide
         document.getElementById('controls-info').innerHTML = `${currentslide + 1 > slides.length - 1 ? slides.length - 1 : currentslide + 1} / ${slides.length - 1}`; // update controls info (current slide / total slides
 

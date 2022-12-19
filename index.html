@@ -16,8 +16,8 @@
     text-align: center;
   }
   .slide {
-    height: 100vh;
-    width: 100vw;
+    height: calc(100vh - 2rem);
+    width: calc(100vw - 2rem);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,6 +26,7 @@
     color: #ffffff;
     background-color: #493c68;
     position: absolute;
+    padding: 1rem;
   }
   .controls {
     border-radius: 0.5rem;
@@ -49,12 +50,11 @@
     background-color: black; 
   }
   .columns {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+    display: grid;
+    grid-template-rows: 1fr;
+    /* automatically space out the columns */
+    grid-template-columns: repeat(auto-fit, minmax(1px, 1fr));
+    gap: 0;
   }
   .column {
     display: flex;
@@ -62,7 +62,6 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: calc(50vw - 2rem);
   }
   img {
     max-width: 25rem;
@@ -114,6 +113,35 @@
   .anim.spin-in.ccw:not(.animated) {
     transform: rotate(720deg);
     opacity: 0;
+  }
+
+  @keyframes veryfunnyspin {
+    0% {
+      transform: rotateX(150deg) rotateY(-230deg) rotateZ(40deg) translate(10rem,5rem);
+    }
+    20% {
+      transform: rotateX(30deg) rotateY(50deg) rotateZ(20deg) translate(-3rem,5rem);
+    }
+    40% {
+      transform: rotateX(4000deg) rotateY(-30deg) rotateZ(-32deg) translate(5rem,-5rem);
+    }
+    60% {
+      transform: rotateX(350deg) rotateY(-5000deg) rotateZ(2000deg) translate(-3rem,5rem);
+    }
+    80% {
+      transform: rotateX(132491384913894deg) rotateY(13489138949138948319deg) rotateZ(-1839491348943198deg) translate(5rem,0rem);
+    }
+    100% {
+      transform: rotateX(0deg);
+    }
+  }
+
+  .anim.spin-in.veryfunny:not(.animated) {
+    animation: none;
+    opacity: 0;
+  }
+  .anim.spin-in.veryfunny.animated {
+    animation: veryfunnyspin 0.8s ease-in-out;
   }
 
   /* same thing but for slides */
@@ -211,7 +239,7 @@
   }
 </style>
 <body> 
-  <div class="slide  " id="0" style="z-index: 0; "><h1>slidemaker demo</h1><h4>by me</h4></div><div class="slide columns " id="1" style="z-index: 1; "><div class="column"><h3>column 1</h3><p>you can have columnsde</p></div><div class="column"><h3>column 2</h3><p>wowie!   </p></div><div class="column"><h3>column 3</h3><p>that's crazy bro</p></div></div><div class="slide columns " id="2" style="z-index: 2; "><div class="column"><h2>images</h2><p>what is an image? it's a picture of something. you can have images in your slides. here's an image of a cat.</p></div><div class="column"><img src="./boris.png" /></div></div><div class="slide  " id="3" style="z-index: 3; "><h2>that wasn't a cat</h2><p>you got trolled!!</p><img src="./big-chungus.gif" /></div><div class="slide  " id="4" style="z-index: 4; background-color: black;font-size: 4em;"><h1>but wait, there's more</h1></div><div class="slide  " id="5" style="z-index: 5; "><h2>youtube videos</h2><p>you can have youtube videos in your slides. here's a video of a cat.</p><iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p>(it's a rickroll)</p></div><div class="slide  " id="6" style="z-index: 6; "><h1>animations</h1><div class="anim fade-in instant"><p>they're kinda jank</p></div><span class="anim block"></span><div class="anim fade-in"><p>but they work</p></div><div class="anim fly-in right"><p>i guess</p></div></div><div class="slide autoanimate " id="7" style="z-index: 7; "><div class="anim spin-in cw veryslow"><h1>more animations</h1></div><span class="anim block"></span></div><div class="slide  transition fly-in right" id="8" style="z-index: 8; background-color: #3c6843;"><h1>transitions</h1><p>they exist!!</p><div class="anim fade-in instant"><p>they're jank too</p></div></div><div class="slide  transition fade-in" id="9" style="z-index: 9; background-color: #966124;"><h2>unfortunately not turing complete</h2><div class="anim fade-in instant"><p>JOKING!!!</p></div><span class="anim block"></span><div class="anim fade-in"><p>you can embed javascript and html oh god</p></div><div class="anim fade-in"><p><button id="clicker">you've clicked this 0 times</button></p></div><div class="anim fade-in"><p><button onclick="goToSlide(2)">go to slide 3</button></p></div><script>let clicks = 0;document.getElementById("clicker").addEventListener("click", () => {clicks++;document.getElementById("clicker").innerHTML = `you've clicked this ${clicks} times`;});</script></div><div class="slide  " id="10" style="z-index: 10; "><h3>how is it made?</h3><p>you just edit a `.slides` file and run the code</p><p>better than videomaker i think  </p></div><div class="slide  " id="11" style="z-index: 11; "><h1>so that's about it</h1><h4>thanks for watching</h4></div><div class="slide last" style="z-index: 12;" id="12"><h6>end of presentation</h6></div>
+  <div class="slide  " id="0" style="z-index: 0; "><h1>slidemaker demo</h1><h4>by me</h4></div><div class="slide columns " id="1" style="z-index: 1; "><div class="column"><h2>images</h2><p>what is an image? it's a picture of something. you can have images in your slides.</p></div><div class="column"><img src="./thumbsup.png" /></div></div><div class="slide columns " id="2" style="z-index: 2; "><div class="column"><h3>column 1</h3><p>you can have columns</p></div><div class="column"><h3>column 2</h3><p>that's neat</p></div><div class="column"><h3>column 3</h3><p>bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla bla</p></div></div><div class="slide  " id="3" style="z-index: 3; background-color: black;font-size: 4em;"><h1>but wait, there's more</h1></div><div class="slide  " id="4" style="z-index: 4; "><h2>youtube videos</h2><p>you can have youtube videos in your slides.</p><iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p>(it's a rickroll)</p></div><div class="slide  " id="5" style="z-index: 5; "><h1>animations</h1><div class="anim fade-in instant"><p>they're kinda jank</p></div><span class="anim block"></span><div class="anim fade-in"><p>but they work</p></div><div class="anim fly-in right"><p>i guess</p></div></div><div class="slide autoanimate columns " id="6" style="z-index: 6; "><div class="column"><div class="anim spin-in cw veryslow"><h1>more animations</h1></div><span class="anim block"></span><div class="anim fade-in instant"><p>yup</p></div></div><div class="column"><span class="anim block"></span><div class="anim spin-in veryfunny reallypushingit"><img src="./thumbsup.png" /></div></div></div><div class="slide  transition fly-in right" id="7" style="z-index: 7; background-color: #3c6843;"><h1>transitions</h1><p>they exist!!</p><div class="anim fade-in instant"><p>they're jank too</p></div></div><div class="slide  transition fade-in" id="8" style="z-index: 8; background-color: #966124;"><h2>unfortunately not turing complete</h2><div class="anim fade-in instant"><p>JOKING!!!</p></div><span class="anim block"></span><div class="anim fade-in"><p>you can embed javascript and html oh god</p></div><div class="anim fade-in"><p><button id="clicker">you've clicked this 0 times</button></p></div><div class="anim fade-in"><p><button onclick="goToSlide(2)">go to slide 3</button></p></div><script>let clicks = 0;document.getElementById("clicker").addEventListener("click", () => {clicks++;document.getElementById("clicker").innerHTML = `you've clicked this ${clicks} times`;});</script></div><div class="slide  " id="9" style="z-index: 9; "><h3>how is it made?</h3><p>you just edit a `.slides` file and run the code</p><p>better than videomaker i think  </p></div><div class="slide  " id="10" style="z-index: 10; "><h1>so that's about it</h1><h4>thanks for watching</h4></div><div class="slide last" style="z-index: 11;" id="11"><h6>end of presentation</h6></div>
   <div class="controls">
     <div id="controls-info">
       
@@ -240,7 +268,6 @@
     document.getElementById('controls-info').innerHTML = `${currentslide + 1} / ${slides.length - 1}`; // update controls info (current slide / total slides
     
     // show the first slide
-    slides[currentslide].style.display = 'flex';
 
     let nextSlide = () => {
       // check if we have any unanimated animations
@@ -258,7 +285,6 @@
           return; // if we're on the last slide, don't do anything
         }
         currentslide = (currentslide + 1) % slides.length;
-        slides[currentslide].style.display = 'flex';
         slides[currentslide].classList.toggle('invisible'); // remove invisible class from next slide
         document.getElementById('controls-info').innerHTML = `${currentslide + 1 > slides.length - 1 ? slides.length - 1 : currentslide + 1} / ${slides.length - 1}`; // update controls info (current slide / total slides
 

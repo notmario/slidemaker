@@ -4,6 +4,5 @@ projects/*
 *.png
 *.gif
 *.jpg
-!big-chungus.gif
-!boris.png
+!thumbsup.png
 output.html
