@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>slidemaker demo</title>
+</head>
+<style>
+   @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,700;1,300;1,700&display=swap');
+  * {
+    margin: 0;
+    padding: 0;
+    font-family: Lato;
+    overflow: hidden;
+    text-align: center;
+  }
+  .slide {
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 32px;
+    color: #ffffff;
+    background-color: #493c68;
+    position: absolute;
+  }
+  .controls {
+    border-radius: 0.5rem;
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    height: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem;
+    gap: 1rem;
+    border: 0.5px solid rgba(255, 255, 255, 0.2);
+    z-index: 99999;
+  }
+  #controls-info {
+    color: white;
+  }
+  .last {
+    background-color: black; 
+  }
+  .columns {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: calc(50vw - 2rem);
+  }
+  img {
+    max-width: 25rem;
+    max-height: 25rem;
+    border-radius: 1rem;
+    margin: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+  svg {
+    cursor: pointer;
+  }
+  iframe {
+    margin: 1rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  }
+
+  /* animations */
+  .anim.fade-in {
+    transition: opacity 0.8s ease-in-out;
+  }
+  .anim.fade-in:not(.animated) {
+    opacity: 0;
+  }
+
+  .anim.fly-in {
+    transition: transform 0.8s ease-in-out;
+  }
+  .anim.fly-in.right:not(.animated) {
+    transform: translateX(100vw);
+  }
+  .anim.fly-in.left:not(.animated) {
+    transform: translateX(-100vw);
+  }
+  .anim.fly-in.up:not(.animated) {
+    transform: translateY(100vh);
+  }
+  .anim.fly-in.down:not(.animated) {
+    transform: translateY(-100vh);
+  }
+
+  .anim.spin-in {
+    transition: transform 0.8s ease-in-out opacity 0.8s ease-in-out;
+  }
+  .anim.spin-in.cw:not(.animated) {
+    transform: rotate(-720deg);
+    opacity: 0;
+  }
+  .anim.spin-in.ccw:not(.animated) {
+    transform: rotate(720deg);
+    opacity: 0;
+  }
+
+  /* same thing but for slides */
+  .slide.invisible:not(.transition) {
+    opacity: 0;
+  }
+  .slide.invisible {
+    /* cursor events */
+    pointer-events: none;
+  }
+
+  .slide.transition.fade-in {
+    transition: opacity 0.8s ease-in-out;
+  }
+  .slide.transition.fade-in.invisible {
+    opacity: 0;
+  }
+
+  .slide.transition.fly-in {
+    transition: transform 0.8s ease-in-out;
+  }
+  .slide.transition.fly-in.right.invisible {
+    transform: translateX(100vw);
+  }
+  .slide.transition.fly-in.left.invisible {
+    transform: translateX(-100vw);
+  }
+  .slide.transition.fly-in.up.invisible {
+    transform: translateY(100vh);
+  }
+  .slide.transition.fly-in.down.invisible {
+    transform: translateY(-100vh);
+  }
+
+  .slide.transition.spin-in {
+    transition: transform 0.8s ease-in-out opacity 0.8s ease-in-out;
+  }
+  .slide.transition.spin-in.cw.invisible {
+    transform: rotate(-720deg);
+    opacity: 0;
+  }
+  .slide.transition.spin-in.ccw.invisible {
+    transform: rotate(720deg);
+    opacity: 0;
+  }
+
+
+  @keyframes bounce-in {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    40% {
+      transform: translateY(-30px);
+    }
+    60% {
+      transform: translateY(-15px);
+    }
+  }
+
+  .anim.instant, .slide.instant {
+    transition: none !important;
+    animation-name: none !important;
+  }
+  .anim.fast, .slide.fast {
+    transition-duration: 0.4s !important;
+    animation-duration: 0.4s !important;
+  }
+  .anim.slow, .slide.slow {
+    transition-duration: 2s !important;
+    animation-duration: 2s !important;
+  }
+  .anim.veryslow, .slide.veryslow {
+    transition-duration: 4s !important;
+    animation-duration: 4s !important;
+  }
+  .anim.golly, .slide.golly {
+    transition-duration: 8s !important;
+    animation-duration: 8s !important;
+  }
+  .anim.reallypushingit, .slide.reallypushingit {
+    transition-duration: 16s !important;
+    animation-duration: 16s !important;
+  }
+
+  button {
+    border: none;
+    background: #333;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    border-radius: 1rem;
+  }
+</style>
+<body> 
+  <div class="slide  " id="0" style="z-index: 0; "><h1>slidemaker demo</h1><h4>by me</h4></div><div class="slide columns " id="1" style="z-index: 1; "><div class="column"><h3>column 1</h3><p>you can have columnsde</p></div><div class="column"><h3>column 2</h3><p>wowie!   </p></div><div class="column"><h3>column 3</h3><p>that's crazy bro</p></div></div><div class="slide columns " id="2" style="z-index: 2; "><div class="column"><h2>images</h2><p>what is an image? it's a picture of something. you can have images in your slides. here's an image of a cat.</p></div><div class="column"><img src="./boris.png" /></div></div><div class="slide  " id="3" style="z-index: 3; "><h2>that wasn't a cat</h2><p>you got trolled!!</p><img src="./big-chungus.gif" /></div><div class="slide  " id="4" style="z-index: 4; background-color: black;font-size: 4em;"><h1>but wait, there's more</h1></div><div class="slide  " id="5" style="z-index: 5; "><h2>youtube videos</h2><p>you can have youtube videos in your slides. here's a video of a cat.</p><iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe><p>(it's a rickroll)</p></div><div class="slide  " id="6" style="z-index: 6; "><h1>animations</h1><div class="anim fade-in instant"><p>they're kinda jank</p></div><span class="anim block"></span><div class="anim fade-in"><p>but they work</p></div><div class="anim fly-in right"><p>i guess</p></div></div><div class="slide autoanimate " id="7" style="z-index: 7; "><div class="anim spin-in cw veryslow"><h1>more animations</h1></div><span class="anim block"></span></div><div class="slide  transition fly-in right" id="8" style="z-index: 8; background-color: #3c6843;"><h1>transitions</h1><p>they exist!!</p><div class="anim fade-in instant"><p>they're jank too</p></div></div><div class="slide  transition fade-in" id="9" style="z-index: 9; background-color: #966124;"><h2>unfortunately not turing complete</h2><div class="anim fade-in instant"><p>JOKING!!!</p></div><span class="anim block"></span><div class="anim fade-in"><p>you can embed javascript and html oh god</p></div><div class="anim fade-in"><p><button id="clicker">you've clicked this 0 times</button></p></div><div class="anim fade-in"><p><button onclick="goToSlide(2)">go to slide 3</button></p></div><script>let clicks = 0;document.getElementById("clicker").addEventListener("click", () => {clicks++;document.getElementById("clicker").innerHTML = `you've clicked this ${clicks} times`;});</script></div><div class="slide  " id="10" style="z-index: 10; "><h3>how is it made?</h3><p>you just edit a `.slides` file and run the code</p><p>better than videomaker i think  </p></div><div class="slide  " id="11" style="z-index: 11; "><h1>so that's about it</h1><h4>thanks for watching</h4></div><div class="slide last" style="z-index: 12;" id="12"><h6>end of presentation</h6></div>
+  <div class="controls">
+    <div id="controls-info">
+      
+    </div>
+    <div id = 'leftarrow' style="cursor: pointer;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </div>
+    <div id = 'rightarrow' style="cursor: pointer;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </div>
+    <!-- full screen -->
+    <div id = 'fullscreen' style="cursor: pointer;">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-maximize-2"><polyline points="15 3 21 3 21 9"></polyline><polyline points="9 21 3 21 3 15"></polyline><line x1="21" y1="3" x2="14" y2="10"></line><line x1="3" y1="21" x2="10" y2="14"></line></svg>
+  </div>
+  <script defer>
+    let currentslide = 0;
+    
+
+    // style all .slide elements invisible
+    const slides = [...document.querySelectorAll('.slide')];
+    slides.forEach((slide,i) => {
+      if (i !== 0)
+        slide.classList.add('invisible');
+    });
+
+    document.getElementById('controls-info').innerHTML = `${currentslide + 1} / ${slides.length - 1}`; // update controls info (current slide / total slides
+    
+    // show the first slide
+    slides[currentslide].style.display = 'flex';
+
+    let nextSlide = () => {
+      // check if we have any unanimated animations
+      if (slides[currentslide].querySelector('.anim:not(.animated)')) {
+        // if we do, animate them
+        let anims = slides[currentslide].querySelectorAll('.anim:not(.animated)');
+        for (let i = 0; i < anims.length; i++) {
+          anims[i].classList.add('animated');
+          if (anims[i].classList.contains('block')) {
+            break; // blocks
+          }
+        }
+      } else {
+        if (currentslide === slides.length - 1) {
+          return; // if we're on the last slide, don't do anything
+        }
+        currentslide = (currentslide + 1) % slides.length;
+        slides[currentslide].style.display = 'flex';
+        slides[currentslide].classList.toggle('invisible'); // remove invisible class from next slide
+        document.getElementById('controls-info').innerHTML = `${currentslide + 1 > slides.length - 1 ? slides.length - 1 : currentslide + 1} / ${slides.length - 1}`; // update controls info (current slide / total slides
+
+        // if autoanimate, call nextSlide() again
+        if (slides[currentslide].classList.contains('autoanimate')) {
+          setTimeout(nextSlide, 50)
+        }
+      }
+    };
+
+    let previousSlide = () => {
+
+      if (slides[currentslide].querySelector('.anim.animated')) {
+        // if we do, animate them
+        let anims = [...slides[currentslide].querySelectorAll('.anim.animated')].reverse();
+        for (let i = 0; i < anims.length; i++) {
+          anims[i].classList.remove('animated');
+          if (anims[i].classList.contains('block')) {
+            break; // blocks
+          }
+        }
+      } else {
+        if (currentslide === 0) {
+          return; // if we're on the first slide, don't do anything
+        }
+        slides[currentslide].classList.toggle('invisible'); // remove invisible class from next slide
+        currentslide = (currentslide - 1 + slides.length) % slides.length;
+        document.getElementById('controls-info').innerHTML = `${currentslide + 1 > slides.length - 1 ? slides.length - 1 : currentslide + 1} / ${slides.length - 1}`; // update controls info (current slide / total slides
+      }
+    };
+
+    let goToSlide = (s)=>{
+      while (currentslide !== s) {
+        if (currentslide < s) {
+          nextSlide();
+        } else {
+          previousSlide();
+        }
+      }
+    }
+
+    document.getElementById('rightarrow').addEventListener('click', nextSlide);
+    document.getElementById('leftarrow').addEventListener('click', previousSlide);
+
+    // fullscreen button
+    document.getElementById('fullscreen').addEventListener('click', () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else {
+        document.documentElement.requestFullscreen();
+      }
+    });
+
+    // spacebar to go to next slide
+    document.addEventListener('keydown', (e) => {
+      if (e.code === 'Space' || e.code === 'ArrowRight') {
+        nextSlide();
+      }
+      if (e.code === 'ArrowLeft') {
+        previousSlide();
+      }
+    });
+  </script>
+</body>
+</html>

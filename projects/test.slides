@@ -1,0 +1,74 @@
+title:slidemaker demo
+---
+# slidemaker demo
+#### by me
+---
+!!columns
+!column
+### column 1
+you can have columnsde
+!column
+### column 2
+wowie!   
+!column
+### column 3
+that's crazy bro
+---
+!!columns
+!column
+## images
+what is an image? it's a picture of something. you can have images in your slides. here's an image of a cat.
+!column
+[](./boris.png)
+---
+## that wasn't a cat
+you got trolled!!
+[](./big-chungus.gif)
+---
+!!bgcol black
+!!style font-size: 4em;
+# but wait, there's more
+---
+## youtube videos
+you can have youtube videos in your slides. here's a video of a cat.
+[](https://www.youtube.com/watch?v=dQw4w9WgXcQ)
+(it's a rickroll)
+---
+# animations
+<!!fade-in instant>they're kinda jank
+!!animblock
+<!!fade-in>but they work
+<!!fly-in right>i guess
+---
+!!autoanimate
+<!!spin-in cw veryslow># more animations
+!!animblock
+---
+!!transition fly-in right
+!!bgcol #3c6843
+# transitions
+they exist!!
+<!!fade-in instant>they're jank too
+---
+!!transition fade-in
+!!bgcol #966124
+## unfortunately not turing complete
+<!!fade-in instant>JOKING!!!
+!!animblock
+<!!fade-in>you can embed javascript and html oh god
+<!!fade-in><button id="clicker">you've clicked this 0 times</button>
+<!!fade-in><button onclick="goToSlide(2)">go to slide 3</button>
+<script>
+  let clicks = 0;
+  document.getElementById("clicker").addEventListener("click", () => {
+    clicks++;
+    document.getElementById("clicker").innerHTML = `you've clicked this ${clicks} times`;
+  });
+</script>
+---
+### how is it made?
+you just edit a `.slides` file and run the code
+better than videomaker i think  
+---
+# so that's about it
+#### thanks for watching

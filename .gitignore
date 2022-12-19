@@ -1,0 +1,9 @@
+*.js
+projects/*
+!projects/test.slides
+*.png
+*.gif
+*.jpg
+!big-chungus.gif
+!boris.png
+output.html
